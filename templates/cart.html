@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Your Cart</title>
+
+    <link rel="stylesheet" href="/static/styles/main.css">
+</head>
+<body>
+    <header>
+        <div class="logo">
+            <h1>Adidas Store</h1>
+        </div>
+        <nav>
+            <ul>
+                <li><a href="/">Home</a></li>
+                <li><a href="#">Contact</a></li>
+                <li><a href="/cart" id="cart-link">Cart</a></li>
+            </ul>
+        </nav>
+    </header>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Your Cart</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #fff;
+            color: #333;
+            margin: 0;
+            padding: 0;
+        }
+
+        h1 {
+            text-align: center;
+            margin-top: 20px;
+            color: #333;
+        }
+
+        #cart-section {
+            width: 300px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #000;
+            color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        #cart-items {
+            list-style-type: none;
+            padding: 0;
+            margin-bottom: 20px;
+        }
+
+        #cart-items li {
+            border-bottom: 1px solid #444;
+            padding: 10px 0;
+        }
+
+        #total-price {
+            font-weight: bold;
+            font-size: 18px;
+        }
+
+        button {
+            background-color: #fff;
+            color: #000;
+            border: none;
+            padding: 10px;
+            width: 100%;
+            margin-top: 10px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s;
+        }
+
+        button:hover {
+            background-color: #ddd;
+        }
+
+        button:active {
+            background-color: #bbb;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Your Cart</h1>
+    <section id="cart-section">
+        <ul id="cart-items">
+            <!-- Cart items will be displayed here -->
+        </ul>
+        <p id="total-price">Total: $0</p>
+        <button onclick="checkout()">Checkout</button>
+        <button onclick="emptyCart()">Empty Cart</button>
+    </section>
+</body>
+</html>
+
+    <footer>
+        <p>&copy; 2024 Adidas Store. All rights reserved.</p>
+    </footer>
+    <script>
+        // Function to get a cookie by name
+        function getCookie(name) {
+            const nameEQ = name + "=";
+            const ca = document.cookie.split(';');
+            console.log(ca);
+            for (let i = 0; i < ca.length; i++) {
+                let c = ca[i];
+                while (c.charAt(0) == ' ') c = c.substring(1, c.length);
+                if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length, c.length);
+
+            }
+            return null;
+        }
+
+        // Function to update total price
+        function updateTotalPrice(cartItems) {
+            let total = 0;
+            cartItems.forEach(item => {
+                total += item.price;
+            });
+            document.getElementById('total-price').textContent = 'Total: $' + total;
+        }
+
+        // Function to display cart on the checkout page
+        function displayCart() {
+    const cartItems = JSON.parse(getCookie('cart')) || [];
+    const cartList = document.getElementById('cart-items');
+    cartList.innerHTML = ''; // Clear the list
+
+    cartItems.forEach(item => {
+        const listItem = document.createElement('li');
+        
+        // Create the image element and set its source
+        const imageElement = document.createElement('img');
+        imageElement.src = item.imageDATA; // Set the image source to the URL stored in imageDATA
+        imageElement.alt = item.product; // Optional: Set alt text to the product name
+        imageElement.style.width = '100px'; // Optional: Set the image size if needed
+
+        // Append the image element to the list item
+        listItem.appendChild(imageElement);
+
+        // Add product name and price text to the list item
+        const textContent = document.createElement('span');
+        textContent.textContent = `${item.product} - $${item.price}`;
+
+        // Append text to the list item
+        listItem.appendChild(textContent);
+
+        // Append the list item to the cart list
+        cartList.appendChild(listItem);
+    });
+
+    updateTotalPrice(cartItems);
+}
+
+
+
+        // Function for checkout action
+        function checkout() {
+            window.location.href = '/?message=success';
+            // You can redirect or handle the checkout process here.
+        }
+
+        // Function to empty the cart
+        function emptyCart() {
+            document.cookie = "cart=;expires=Thu, 01 Jan 1970 00:00:00 UTC;path=/"; // Delete the cart cookie
+            displayCart(); // Refresh cart display
+        }
+
+        // Load and display cart when the page loads
+        displayCart();
+
+
+        
+    </script>
+</body>
+</html>
